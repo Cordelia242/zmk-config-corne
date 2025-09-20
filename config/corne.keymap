@@ -10,16 +10,6 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    combos {
-        compatible = "zmk,combos";
-
-        fun_layer_combo {
-            bindings = <&mo 2>;
-            key-positions = <37 38>; // num y sym (posiciones correctas)
-            layers = <0>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -91,6 +81,8 @@
                 &trans  &trans     &kp AMPERSAND  &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp AT_SIGN  &trans   &kp SLASH         &kp ASTERISK   &kp BACKSLASH     &kp CARET        &trans
                                                   &trans                &trans                 &trans       &trans   &trans            &trans
             >;
+
+            label = "SYMBOL";
         };
     };
 
