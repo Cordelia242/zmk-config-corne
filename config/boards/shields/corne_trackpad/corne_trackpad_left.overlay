@@ -1,0 +1,56 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "corne_trackpad.dtsi"
+#include "input_listener.dtsi"
+
+&default_transform {
+    col-offset = <0>;
+};
+
+&kscan0 {
+    col-gpios
+        = <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 14 GPIO_ACTIVE_HIGH>
+        ;
+};
+
+/ {
+    /* Receiver/resurrected input devices (on central) */
+    /* This is to receive and resurrect input-events from peripherals */
+    glidepoint1: virtual_input {
+        compatible = "zmk,virtual-input";
+    };
+
+    /* assign input device(s) to input listener */
+    /* NOTE: the order below determines the priority of accepting input events when multiple input devices both report input events. */
+    input_config_102 {
+        compatible = "zmk,input-listener-device-override";
+
+        /* friendly name for debugging */
+        label = "glidepoint-central-override";
+
+        /* target KEY_COPY input listener (defined as a zmk,input-listener in input_listener.dtsi) */
+        precise-input-listener = <&ib_wheel_scaler>;
+
+        /* override the target input listener's associated device with the assigned (resurrected) trackpad device */
+        device = <&glidepoint1>;
+    };
+
+    input_relay_listener_config_102 {
+        compatible = "zmk,input-split-listener";
+
+        /* should matching relay-channel on peripherals overlay */
+        relay-channel = <102>;
+
+        /* target a virtual input */
+        device = <&glidepoint1>;
+    };
+};

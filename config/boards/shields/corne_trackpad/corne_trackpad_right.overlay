@@ -1,0 +1,75 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "corne_trackpad.dtsi"
+#include "input_listener.dtsi"
+
+&default_transform {
+    col-offset = <6>;
+};
+
+&kscan0 {
+    col-gpios
+        = <&pro_micro 14 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        ;
+};
+
+&pro_micro_i2c {
+    status = "okay";
+
+    glidepoint0: glidepoint@2a {
+        compatible = "cirque,pinnacle";
+        reg = <0x2a>;
+        status = "okay";
+        dr-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH)>;
+
+        sensitivity = "4x";
+        sleep;
+        no-taps;
+    };
+};
+
+/ {
+    /* assign input device `glidepoint0` to all input listeners that has input code set to `INPUT_EV_REL_*/` */
+    /* NOTE: this is doing "input-device = <deviceA> to all input listeners under root */
+    input_config_102 {
+        compatible = "zmk,input-listener-device-override";
+
+        /* friendly name for debugging */
+        label = "glidepoint-peripheral-override";
+
+        /* target KEY_COPY input listener (defined as a zmk,input-listener in input_listener.dtsi) */
+        precise-input-listener = <&ib_wheel_scaler>;
+
+        /* override the target input listener's associated device with the assigned trackpad device */
+        device = <&glidepoint0>;
+    };
+
+    /* Receiver/resurrected input devices (on central) */
+    /* This is to receive and resurrect input-events from peripherals */
+    glidepoint1: virtual_input {
+        compatible = "zmk,virtual-input";
+    };
+
+    input_relay_config_102 {
+        compatible = "zmk,split-peripheral-input-relay";
+
+        /* peripheral side input device, used to */
+        /*  - be intecepted on peripheral; */
+        /*  - and then, be resurrected as `zmk,virtual-device` on central; */
+        device = <&glidepoint0>;
+
+        /* channel id, used to be be transfered along with all input events. */
+        /* NOTE 1: pick any 8bit integer. (1 - 255) */
+        /* NOTE 2: should matching relay-channel on central overlay */
+        relay-channel = <102>;
+    };
+};
