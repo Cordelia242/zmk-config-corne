@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
- 
+
 #include <dt-bindings/zmk/input_transform.h>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include "corne_cirque.dtsi"
@@ -53,6 +53,12 @@
         /* Modo de datos: Relativo para mouse estándar, 
            Absoluto para gestos avanzados */
         /* data-mode = "relative"; */ 
+    };
+};
+input_transformers {
+zip_xy_transform: zip_xy_transform {
+        compatible = "zmk,input-processor-transform";
+        type = "zip_xy";
     };
 };
 
