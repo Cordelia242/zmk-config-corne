@@ -17,16 +17,13 @@
         ;
 };
 
-&pro_micro_i2c {
-    status = "okay";
 
-    glidepoint_split: glidepoint_split@1 {
-        compatible = "zmk,input-split";
-        reg = <0x01>;
-    };
-};
 
 / {
+    glidepoint_split: glidepoint_split {
+        compatible = "zmk,input-split";
+    };
+
     glidepoint_listener {
         compatible = "zmk,input-listener";
         device = <&glidepoint_split>;

@@ -39,10 +39,11 @@
         sleep;
         no-taps;
     };
+};
 
-    glidepoint_split: glidepoint_split@1 {
+/ {
+    glidepoint_split: glidepoint_split {
         compatible = "zmk,input-split";
-        reg = <0x01>;
         device = <&glidepoint>;
         input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
     };
