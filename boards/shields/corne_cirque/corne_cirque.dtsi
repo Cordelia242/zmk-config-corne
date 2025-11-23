@@ -88,6 +88,9 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
     split_inputs: split_inputs@1 {
         compatible = "zmk,input-split";
         reg = <0x01>;
+        /* The input-split node must be bound to a real input source (eg. the main kscan).
+         * The driver requires an `input` property pointing to the input device. */
+        input = <&kscan0>;
         #address-cells = <1>;
         #size-cells = <0>;
 
