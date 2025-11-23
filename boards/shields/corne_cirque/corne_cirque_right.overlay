@@ -6,6 +6,7 @@
 
 #include "corne_cirque.dtsi"
 #include <dt-bindings/zmk/input_transform.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 &default_transform {
     col-offset = <6>;
