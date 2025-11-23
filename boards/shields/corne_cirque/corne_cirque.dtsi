@@ -68,7 +68,6 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
 
 &pro_micro_i2c {
     status = "okay";
-    clock-frequency = <I2C_BITRATE_FAST>;
 
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
@@ -84,5 +83,26 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
         com-sequential;
         inversion-on;
         prechargep = <0x22>;
+    };
+
+    split_inputs: split_inputs@1 {
+        compatible = "zmk,input-split";
+        reg = <0x01>;
+        /* The input-split node must be bound to a real input source (eg. the main kscan).
+         * The driver requires an `input` property pointing to the input device. */
+        input = <&kscan0>;
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        glidepoint_split: glidepoint_split@0 {
+            compatible = "zmk,input-split";
+            reg = <0>;
+        };
+    };
+
+    glidepoint_listener: glidepoint_listener {
+        compatible = "zmk,input-listener";
+        device = <&glidepoint_split>;
+        status = "disabled"; 
     };
 };

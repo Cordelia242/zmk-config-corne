@@ -29,21 +29,35 @@
 
 &pro_micro_i2c {
     status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>; /* 400kHz para menor latencia */
 
+    /* Definición del Sensor Físico */
     glidepoint: glidepoint@2a {
         compatible = "cirque,pinnacle";
-        reg = <0x2a>;
+        reg = <0x2a>; /* Dirección I2C estática del Pinnacle */
         status = "okay";
+        
+        /* Configuración de la interrupción (Data Ready)
+           Es vital seleccionar un pin que no esté en uso por la matriz.
+           Supongamos que usamos el pin D0 (P0.06 en nRF52) si está libre,
+           o cualquier otro GPIO disponible en el Corne. 
+           VERIFICAR ESQUEMÁTICO DEL CORNE ESPECÍFICO.
+           Aquí usamos un ejemplo genérico. */
         dr-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH)>;
-        sensitivity = "4x";
-        sleep;
-        no-taps;
-    };
 
-    glidepoint_split: glidepoint_split@1 {
-        compatible = "zmk,input-split";
-        reg = <0x01>;
-        device = <&glidepoint>;
-        input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+        /* Parámetros del Driver */
+        sensitivity = "4x"; /* Opciones: 1x, 2x, 3x, 4x. 4x es menos sensible */
+        sleep;              /* Permite al sensor dormir para ahorrar batería */
+        no-taps;            /* Desactivar detección de taps por hardware si ZMK lo gestiona */
+        
+        /* Modo de datos: Relativo para mouse estándar, 
+           Absoluto para gestos avanzados */
+        /* data-mode = "relative"; */ 
     };
+};
+
+&glidepoint_split {
+    /* link this split peripheral to the glidepoint sensor instance */
+    input = <&glidepoint>;
+    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
 };
