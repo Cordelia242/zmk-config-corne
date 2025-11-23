@@ -55,12 +55,6 @@
         /* data-mode = "relative"; */ 
     };
 };
-input_transformers {
-zip_xy_transform: zip_xy_transform {
-        compatible = "zmk,input-processor-transform";
-        type = "zip_xy";
-    };
-};
 
 &glidepoint_split {
     device = <&glidepoint>;
