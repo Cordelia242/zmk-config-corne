@@ -4,6 +4,8 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: gpeye
       url-base: https://github.com/GPeye
+    - name: cirque-module
+      url-base: https://github.com/petejohanson
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -12,5 +14,9 @@ manifest:
     - name: hammerbeam-slideshow
       remote: gpeye
       revision: main
+    - name: cirque-input-module
+      remote: cirque-module
+      revision: main
+
   self:
     path: config
