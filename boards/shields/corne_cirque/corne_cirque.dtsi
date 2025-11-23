@@ -81,8 +81,9 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
         prechargep = <0x22>;
     };
 
-    split_inputs {
+    split_inputs: split_inputs@1 {
         compatible = "zmk,input-split";
+        reg = <0x01>;
         #address-cells = <1>;
         #size-cells = <0>;
 
