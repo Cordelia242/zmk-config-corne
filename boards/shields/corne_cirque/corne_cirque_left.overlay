@@ -16,3 +16,12 @@
         , <&pro_micro 14 GPIO_ACTIVE_HIGH>
         ;
 };
+
+&glidepoint_listener {
+    status = "okay";
+    
+    /* Opcional: Procesadores de entrada adicionales en el lado central.
+       Por ejemplo, un escalador para ajustar la velocidad del cursor globalmente
+       independientemente de qué lado venga la señal. */
+    /* input-processors = <&zip_temp_layer 1 1000>;  Ejemplo: Capa temporal al mover */
+};

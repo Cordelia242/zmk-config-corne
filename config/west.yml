@@ -2,15 +2,26 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: gpeye
-      url-base: https://github.com/GPeye
+    - name: petejohanson
+      url-base: https://github.com/petejohanson
+    - name: badjeff
+      url-base: https://github.com/badjeff
+    - name: halfdane
+      url-base: https://github.com/halfdane
+
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: hammerbeam-slideshow
-      remote: gpeye
+    
+    - name: cirque-input-module
+      remote: petejohanson
       revision: main
+    
+    - name: zmk-input-gestures
+      remote: halfdane
+      revision: main
+
   self:
     path: config
