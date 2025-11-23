@@ -21,13 +21,6 @@
 };
 
 / {
-    input_transformers {
-        zip_xy_transform: zip_xy_transform {
-            compatible = "zmk,input-processor-transform";
-            /* DT expects numeric values here (macros), not strings */
-            type = <INPUT_TRANSFORM_ZIP_XY>;
-        };
-    };
     chosen {
         zephyr,display = &oled;
         zmk,kscan = &kscan0;
