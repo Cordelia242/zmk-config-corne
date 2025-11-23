@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include <dt-bindings/zmk/input_transform.h>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 #include "corne_cirque.dtsi"
 
 &default_transform {
