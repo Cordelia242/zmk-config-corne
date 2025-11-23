@@ -22,16 +22,6 @@
 };
 
 / {
-    input_processors {
-        zip_xy_transform_local: zip_xy_transform {
-        compatible = "zmk,input-processor-transform";
-        #input-processor-cells = <1>;
-        type = <INPUT_EV_REL>;
-        x-codes = <INPUT_REL_X>;
-        y-codes = <INPUT_REL_Y>;
-        };
-    };
-
     chosen {
         zephyr,display = &oled;
         zmk,kscan = &kscan0;
