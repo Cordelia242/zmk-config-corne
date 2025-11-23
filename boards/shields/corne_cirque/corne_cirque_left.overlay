@@ -16,16 +16,3 @@
         , <&pro_micro 14 GPIO_ACTIVE_HIGH>
         ;
 };
-
-/ {
-    /* Dispositivo virtual para recibir eventos */
-    glidepoint1: virtual_input {
-        compatible = "zmk,virtual-input";
-    };
-
-    input_relay_config_102 {
-        compatible = "zmk,split-peripheral-input-relay";
-        relay-channel = <102>;
-        device = <&glidepoint1>; // Destino virtual
-    };
-};
