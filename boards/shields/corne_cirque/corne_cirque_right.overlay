@@ -32,7 +32,7 @@
         compatible = "cirque,pinnacle";
         reg = <0>;
         status = "okay";
-        dr-gpios = <&gpio1 2 (GPIO_ACTIVE_HIGH)>;
+        dr-gpios = <&gpio1 1 (GPIO_ACTIVE_HIGH)>;
 
         sensitivity = "2x";
         y-invert;
