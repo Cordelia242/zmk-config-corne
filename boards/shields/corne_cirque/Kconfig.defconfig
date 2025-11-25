@@ -13,10 +13,10 @@ if SHIELD_CORNE_CIRQUE_LEFT || SHIELD_CORNE_CIRQUE_RIGHT
 config ZMK_SPLIT
     default y
 
-if ZMK_DISPLAY
-
 config I2C
     default y
+
+if ZMK_DISPLAY
 
 config SSD1306
     default y
