@@ -40,3 +40,12 @@
 &glidepoint_split {
     device = <&glidepoint>;
 };
+
+/ {
+    /* Listener para el lado periférico donde está el trackpad físico */
+    glidepoint_listener_right: glidepoint_listener_right {
+        compatible = "zmk,input-listener";
+        status = "okay";
+        device = <&glidepoint>;
+    };
+};
