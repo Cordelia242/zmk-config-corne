@@ -33,7 +33,6 @@
         reg = <0x2a>;
         status = "okay";
         dr-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH)>;
-        data-mode = "relative";
 
         sensitivity = "1x";
         y-invert;
