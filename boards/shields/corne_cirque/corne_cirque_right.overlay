@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+#include <input/processors.dtsi>
 #include "corne_cirque.dtsi"
 
 &default_transform {
@@ -35,6 +36,7 @@
         dr-gpios = <&gpio1 1 (GPIO_ACTIVE_HIGH)>;
         sensitivity = "1x";
         y-invert;
+        input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
     };
 };
 
