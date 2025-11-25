@@ -5,6 +5,7 @@
  */
 
 #include <input/processors.dtsi>
+#include <dt-bindings/zmk/input_transform.h>
 #include "corne_cirque.dtsi"
 
 &default_transform {
