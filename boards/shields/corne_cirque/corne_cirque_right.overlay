@@ -33,16 +33,12 @@
         status = "okay";
         reg = <0x2a>;
         dr-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH)>;
+        input-split = <&glidepoint_split>;
 
         sensitivity = "4x";
     };
 };
 
-&glidepoint_split {
-    input = <&glidepoint>;
-};
-
 &glidepoint_listener {
-    status = "okay";
-    device = <&glidepoint>;
+    status = "disabled";
 };
