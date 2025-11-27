@@ -38,6 +38,10 @@
     };
 };
 
+&glidepoint_split {
+    input = <&glidepoint>;
+};
+
 &glidepoint_listener {
     status = "okay";
     device = <&glidepoint>;
