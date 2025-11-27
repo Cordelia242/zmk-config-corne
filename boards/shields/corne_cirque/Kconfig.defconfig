@@ -44,12 +44,3 @@ config ZMK_POINTING
     default y
 
 endif
-
-
-#if SHIELD_CORNE_CIRQUE_RIGHT
-
-# Assuming pointing device uses SPI
-#config SPI
-#    default y
-
-#endif disble if using spi instead of i2c with the glidepoint
