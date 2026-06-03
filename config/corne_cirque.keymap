@@ -83,8 +83,6 @@
                 &trans     &trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp PERIOD &trans  &kp HOME        &kp LC(X) &kp END        &kp PAGE_DOWN  &trans
                                                   &trans        &trans        &kp SPACE  &kp RET &trans          &trans
             >;
-
-            label = "num-nav";
         };
 
         sym {
@@ -102,8 +100,6 @@
                 &trans  &trans     &kp AMPERSAND  &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp AT_SIGN  &trans   &kp SLASH         &kp ASTERISK   &kp BACKSLASH     &kp CARET        &trans
                                                   &trans                &trans                 &trans       &trans   &trans            &trans
             >;
-
-            label = "SYMBOL";
         };
 
         fun {
@@ -121,8 +117,6 @@
                 &trans     &kp F10  &kp F1  &kp F2  &kp F3  &kp C_MUTE        &kp C_PLAY_PAUSE  &trans        &trans        &trans        &trans        &trans
                                             &trans  &trans  &trans            &trans            &trans        &trans
             >;
-
-            label = "FUNCTION";
         };
     };
 
