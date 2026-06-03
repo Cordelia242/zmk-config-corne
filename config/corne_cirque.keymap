@@ -50,7 +50,7 @@
     };
 
     keymap {
-        compatible = "zmk,keymap";1
+        compatible = "zmk,keymap";
         qwerty {
             display-name = "QWERTY";
 
@@ -83,7 +83,7 @@
                 &trans     &trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp PERIOD &trans  &kp HOME        &kp LC(X) &kp END        &kp PAGE_DOWN  &trans
                                                   &trans        &trans        &kp SPACE  &kp RET &trans          &trans
             >;
-empleada
+
             label = "num-nav";
         };
 
