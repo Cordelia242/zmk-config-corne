@@ -36,10 +36,13 @@
 
         sensitivity = "4x";
         sleep-mode-enable;
-        invert-y;
+        // primary-tap-enable;  /* descomentar para tap-to-click */
     };
 };
 
 &glidepoint_split {
     device = <&glidepoint>;
+    // Invertir Y en el periférico antes de enviar al central.
+    // Añadir INPUT_TRANSFORM_XY_SWAP si el cursor se mueve en eje incorrecto.
+    input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>;
 };

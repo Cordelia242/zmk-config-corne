@@ -19,4 +19,14 @@
 
 &glidepoint_listener {
     status = "okay";
+    // Velocidad base: 1.5x (ajustar divisor para más/menos velocidad).
+    input-processors = <&zip_xy_scaler 3 2>;
+
+    scroller {
+        // En el layer NUMNAV (2), el trackpad pasa a ser scroll.
+        layers = <2>;
+        input-processors =
+            <&zip_xy_to_scroll_mapper>,
+            <&zip_scroll_scaler 1 4>;
+    };
 };
