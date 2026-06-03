@@ -1,33 +1,80 @@
-# Cirque Pinnacle — Conexión al nice!nano (Corne derecho)
+# Cirque Pinnacle — Conexión al Typeractive Corne (lado derecho)
 
 El Cirque se conecta al **lado derecho** (periférico) vía I2C.
-Usa el bus I2C que comparte con el OLED (si lo hay), más un pin libre para la señal DR.
+El PCB del Typeractive Corne trae un header de 5 pines para el nice!view —
+ese mismo header se usa para el Cirque, ya que comparten los pines D2/D3.
 
 ---
 
-## Señales necesarias
+## Por qué usar el header del nice!view
 
-| Señal Cirque | Función | Pin nice!nano |
-|---|---|---|
-| VCC | Alimentación 3.3V | **VCC** |
-| GND | Tierra | **GND** |
-| SDA | I2C datos | **D2** |
-| SCL | I2C reloj | **D3** |
-| DR | Data Ready (interrupción) | **D0** |
+El nice!view usa SPI con 5 pines: `VCC · GND · D1(CS) · D2(MOSI) · D3(SCK)`.
+El Cirque en I2C necesita:         `VCC · GND · D1(DR)  · D2(SDA)  · D3(SCL)`.
+
+Los pines físicos **D2 y D3 son idénticos** en ambos casos (mismos pads del PCB).
+D1, que en el nice!view es CS, lo reutilizamos como la señal DR del Cirque.
+**Las 5 conexiones salen del mismo header — sin soldar al socket del nano.**
 
 ---
 
-## nice!nano — pinout lado derecho (half)
+## Header del nice!view en el PCB (lado derecho)
 
-Los pines usados están marcados con `◄`.
+```
+  ┌─────────────────────────────────────────────┐
+  │          Typeractive Corne  — right half     │
+  │                                              │
+  │   Header nice!view / Cirque                  │
+  │   ┌───┬───┬───┬───┬───┐                     │
+  │   │VCC│GND│ D1│ D2│ D3│                     │
+  │   └─┬─┴─┬─┴─┬─┴─┬─┴─┬─┘                    │
+  │     │   │   │   │   │                        │
+  │    3.3V GND DR SDA SCL                       │
+  │                 (Cirque)                     │
+  └─────────────────────────────────────────────┘
+```
+
+---
+
+## Diagrama completo de conexión
+
+```
+  PCB header (right)              Cirque Pinnacle
+  ──────────────────              (breakout / FPC adapter)
+                                  ┌──────────────┐
+  VCC (3.3V) ──────────────────► │ VCC          │
+  GND        ──────────────────► │ GND          │
+  D1         ◄────────────────── │ DR           │  ← interrupción activa HIGH
+  D2         ◄───────────────────│ SDA          │  ← I2C datos
+  D3         ◄───────────────────│ SCL          │  ← I2C reloj
+                                  └──────────────┘
+```
+
+> DR es salida del Cirque y entrada del nice!nano.
+> SDA/SCL son bidireccionales (protocolo I2C).
+
+---
+
+## Señales — tabla de referencia
+
+| Pad del header | Función nice!view | Función con Cirque | Pin nice!nano |
+|:--------------:|:-----------------:|:------------------:|:-------------:|
+| VCC            | Alimentación      | Alimentación 3.3V  | VCC           |
+| GND            | Tierra            | Tierra             | GND           |
+| D1             | CS (chip select)  | DR (data ready)    | D1 / P0.06    |
+| D2             | MOSI (SPI data)   | SDA (I2C data)     | D2 / P0.17    |
+| D3             | SCK (SPI clock)   | SCL (I2C clock)    | D3 / P0.20    |
+
+---
+
+## nice!nano — pines usados en el lado derecho
 
 ```
               USB-C
          ┌─────────────┐
-    D1   │ ○           ○ │  RAW (VBAT)
-    D0   │ ●  ◄ DR     ○ │  GND
+    D1   │ ●  ◄ DR     ○ │  RAW (VBAT)
+    D0   │ ○           ○ │  GND
    GND   │ ○           ○ │  RST
-   GND   │ ○           ○ │  VCC  ● ◄ VCC (3.3V)
+   GND   │ ○           ○ │  VCC  ● ◄ 3.3V
     D2   │ ●  ◄ SDA    ○ │  A3
     D3   │ ●  ◄ SCL    ○ │  A2
     D4   │ ○           ○ │  A1
@@ -37,59 +84,9 @@ Los pines usados están marcados con `◄`.
     D8   │ ○           ○ │  D16
     D9   │ ○           ○ │  D10
          └─────────────┘
+
+  ● = pin usado por el Cirque
 ```
-
-> **Nota:** VCC está en la columna derecha, 4.° pin desde arriba.
-> D0, D2, D3 están en la columna izquierda.
-
----
-
-## Diagrama de conexión
-
-```
-  nice!nano (right)          Cirque Pinnacle
-  ─────────────────          (breakout / FPC adapter)
-                             ┌──────────────┐
-  VCC (3.3V) ───────────────►│ VCC          │
-  GND        ───────────────►│ GND          │
-  D2  (SDA)  ───────────────►│ SDA          │
-  D3  (SCL)  ───────────────►│ SCL          │
-  D0  (DR)  ◄────────────────│ DR           │
-                             └──────────────┘
-```
-
-La flecha en DR es bidireccional en sentido lógico: el Cirque
-**genera** la señal DR (activa HIGH cuando hay datos listos) y el
-nice!nano la **lee** como interrupción GPIO.
-
----
-
-## En el PCB del Typeractive Corne
-
-```
-  PCB right half
-  ┌──────────────────────────────────────┐
-  │                                      │
-  │  ┌─────────┐   OLED header           │
-  │  │nice!nano│   ┌───────────────┐     │
-  │  │ socket  │   │ VCC GND SDA SCL│    │
-  │  │         │   └──┬────┬───┬───┘     │
-  │  │  D2 ────┼──────┼────┼───┘  SCL   │
-  │  │  D3 ────┼──────┼────┘      SDA   │
-  │  │  VCC────┼──────┘           VCC   │
-  │  │  GND────┼─────────────     GND   │
-  │  │         │                        │
-  │  │  D0 ────┼── (sin pad propio,     │
-  │  │         │    soldar directo al   │
-  │  └─────────┘    socket del nano)    │
-  └──────────────────────────────────────┘
-```
-
-- **VCC, GND, SDA, SCL** — ya tienen pads en el header del OLED del PCB.
-  Puedes conectar el Cirque en paralelo a esos mismos pads.
-- **DR (D0)** — no tiene pad propio en el PCB del Corne estándar.
-  Hay que soldar un cable directamente al pin D0 del socket del nice!nano
-  (columna izquierda, 2.° pin desde arriba con USB hacia arriba).
 
 ---
 
@@ -104,23 +101,21 @@ nice!nano la **lee** como interrupción GPIO.
         compatible = "cirque,pinnacle";
         reg = <0x2a>;
         status = "okay";
-        data-ready-gpios = <&pro_micro 0 (GPIO_ACTIVE_HIGH)>;  // D0 = DR
+        data-ready-gpios = <&pro_micro 1 (GPIO_ACTIVE_HIGH)>;  // D1 = DR
         sensitivity = "4x";
         sleep-mode-enable;
+        // primary-tap-enable;  /* descomentar para tap-to-click */
     };
 };
 ```
 
-`&pro_micro_i2c` usa D2 (SDA) y D3 (SCL) automáticamente
-según la definición del board `nice_nano//zmk`.
+`pro_micro 1` = D1, que en el header del PCB es el pad **D1 (CS)**.
+`&pro_micro_i2c` usa D2 y D3 automáticamente según la definición del board.
 
 ---
 
 ## Resistencias pull-up
 
-El I2C requiere resistencias pull-up en SDA y SCL (típicamente 4.7kΩ a 3.3V).
-El PCB del Corne ya las incluye para el OLED, así que **no necesitas añadir
-pull-ups extra** si el Cirque comparte el mismo bus que el OLED.
-
-Si no hay OLED en el lado derecho, verifica si el breakout del Cirque
-trae pull-ups integrados. Muchos adaptadores ya las incluyen.
+I2C requiere pull-ups en SDA y SCL (típicamente 4.7 kΩ a 3.3V).
+Verifica si el breakout del Cirque las incluye.
+Si no, añade resistencias entre SDA↔VCC y SCL↔VCC.
