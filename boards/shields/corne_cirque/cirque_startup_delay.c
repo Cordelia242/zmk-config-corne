@@ -3,9 +3,10 @@
 
 /* Cirque Pinnacle needs ~500ms after power-on before its I2C interface is ready.
  * This hook runs at priority 85 (before the Cirque driver at priority 90) and
- * waits long enough that the hardware is guaranteed to be ready. */
+ * waits long enough that the hardware is guaranteed to be ready.
+ * Using 1000ms for margin since bootloader exits fast (~50ms) on battery. */
 static int cirque_startup_delay(void) {
-    k_msleep(500);
+    k_msleep(1000);
     return 0;
 }
 
